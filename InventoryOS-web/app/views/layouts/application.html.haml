@@ -2,10 +2,16 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title InventoryOSWeb
+    %title InventoryOS
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet'
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cabin:700'
+    = stylesheet_link_tag 'grayscale'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
+    = render :partial => 'common/navbar'
     = yield
+    = render :partial => 'common/footer'
+    = javascript_include_tag 'grayscale'

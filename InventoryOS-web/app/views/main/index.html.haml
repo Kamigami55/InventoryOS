@@ -1,1 +1,57 @@
-%h1 InventoryOS
+%body
+  %header.masthead
+    .intro-body
+      .container
+        .row
+          .col-lg-8.mx-auto
+            %h1.brand-heading InventoryOS
+            %p.intro-text 影像辨識庫存管理系統
+            %a.btn.btn-circle.js-scroll-trigger{:href => "#about"}
+              %i.fa.fa-angle-double-down.animated
+  / About Section
+  %section#about.content-section.text-center
+    .container
+      .row
+        .col-lg-8.mx-auto
+          %h2 關於 InventoryOS
+          %p
+            Grayscale is a free Bootstrap theme created by Start Bootstrap. It can be yours right now, simply download the template on
+            = succeed "." do
+              %a{:href => "http://startbootstrap.com/template-overviews/grayscale/"} the preview page
+          %p
+            This theme features stock photos by
+            %a{:href => "http://gratisography.com/"} Gratisography
+            along with a custom Google Maps skin courtesy of
+            = succeed "." do
+              %a{:href => "http://snazzymaps.com/"} Snazzy Maps
+          %p Grayscale includes full HTML, CSS, and custom JavaScript files along with SASS and LESS files for easy customization!
+  / Download Section
+  %section#download.download-section.content-section.text-center
+    .container
+      .col-lg-8.mx-auto
+        %h2 Download Grayscale
+        %p You can download Grayscale for free on the preview page at Start Bootstrap.
+        %a.btn.btn-default.btn-lg{:href => "http://startbootstrap.com/template-overviews/grayscale/"} Visit Download Page
+  / Contact Section
+  %section#contact.content-section.text-center
+    .container
+      .row
+        .col-lg-8.mx-auto
+          %h2 Contact Start Bootstrap
+          %p
+            Feel free to leave us a comment on the
+            %a{:href => "http://startbootstrap.com/template-overviews/grayscale/"} Grayscale template overview page
+            on Start Bootstrap to give some feedback about this theme!
+          %ul.list-inline.banner-social-buttons
+            %li.list-inline-item
+              %a.btn.btn-default.btn-lg{:href => "https://twitter.com/SBootstrap"}
+                %i.fa.fa-twitter.fa-fw
+                %span.network-name Twitter
+            %li.list-inline-item
+              %a.btn.btn-default.btn-lg{:href => "https://github.com/BlackrockDigital/startbootstrap"}
+                %i.fa.fa-github.fa-fw
+                %span.network-name Github
+            %li.list-inline-item
+              %a.btn.btn-default.btn-lg{:href => "https://plus.google.com/+Startbootstrap/posts"}
+                %i.fa.fa-google-plus.fa-fw
+                %span.network-name Google+

@@ -1,0 +1,15 @@
+/ Navigation
+%nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top
+  .container
+    %a.navbar-brand.js-scroll-trigger{:href => "#page-top"} InventoryOS
+    %button.navbar-toggler.navbar-toggler-right{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
+      Menu
+      %i.fa.fa-bars
+    #navbarResponsive.collapse.navbar-collapse
+      %ul.navbar-nav.ml-auto
+        %li.nav-item
+          %a.nav-link.js-scroll-trigger{:href => "#about"} About
+        %li.nav-item
+          %a.nav-link.js-scroll-trigger{:href => "#download"} Download
+        %li.nav-item
+          %a.nav-link.js-scroll-trigger{:href => "#contact"} Contact
