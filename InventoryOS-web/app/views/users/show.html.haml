@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @user.name
+%p
+  %strong Account:
+  = @user.account
+%p
+  %strong Password:
+  = @user.password
+%p
+  %strong Rfid:
+  = @user.rfid
+%p
+  %strong Role:
+  = @user.role
+= link_to 'Edit', edit_user_path(@user)
+|
+= link_to 'Back', users_path

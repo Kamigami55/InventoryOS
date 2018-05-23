@@ -1,0 +1,28 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @item.name
+%p
+  %strong Detail:
+  = @item.detail
+%p
+  %strong Status:
+  = @item.status
+%p
+  %strong Location:
+  = @item.location
+%p
+  %strong Owner:
+  = @item.owner_id
+%p
+  %strong Holder:
+  = @item.holder_id
+%p
+  %strong Category:
+  = @item.category
+%p
+  %strong Main image:
+  = @item.main_image_id
+= link_to 'Edit', edit_item_path(@item)
+|
+= link_to 'Back', items_path
