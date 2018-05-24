@@ -1,3 +1,4 @@
-.container{style: "padding:50px 0"}
-  %h1.display-3.font-weight-normal.text-center 庫存 - 修改物品
-  = render 'form', item: @item
+%header.inventory-header
+  .container
+    %h1.display-3.font-weight-normal.text-center 庫存 - 修改物品
+    = render 'form', item: @item
