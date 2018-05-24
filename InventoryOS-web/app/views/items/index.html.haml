@@ -1,30 +1,34 @@
-%p#notice= notice
-%h1 Items
-%table
-  %thead
-    %tr
-      %th Name
-      %th Detail
-      %th Status
-      %th Location
-      %th Owner
-      %th Holder
-      %th Category
-      %th Main image
-      %th{:colspan => "3"}
-  %tbody
-    - @items.each do |item|
+.container{ style: 'margin-top: 100px' }
+  %p#notice= notice
+  %h1.display-3.text-center Inventory
+  %table.table.table-bordered.table-light.table-hover
+    %thead.thead-dark
       %tr
-        %td= item.name
-        %td= item.detail
-        %td= item.status
-        %td= item.location
-        %td= item.owner_id
-        %td= item.holder_id
-        %td= item.category
-        %td= item.main_image_id
-        %td= link_to 'Show', item
-        %td= link_to 'Edit', edit_item_path(item)
-        %td= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' }
-%br/
-= link_to 'New Item', new_item_path
+        %th Name
+        %th Detail
+        %th Status
+        %th Location
+        %th Owner
+        %th Holder
+        %th Category
+        %th Main image
+        %th{:colspan => "3"}
+    %tbody
+      - @items.each do |item|
+        %tr
+          %td= item.name
+          %td= item.detail
+          %td= item.status
+          %td= item.location
+          %td= item.owner_id
+          %td= item.holder_id
+          %td= item.category
+          %td= item.main_image_id
+          %td
+            %button.btn.btn-info= link_to '詳細', item
+          %td
+            %button.btn.btn-primary= link_to '編輯', edit_item_path(item)
+          %td
+            %button.btn.btn-danger= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' }
+  %br/
+  %button.btn.btn-success= link_to 'New Item', new_item_path

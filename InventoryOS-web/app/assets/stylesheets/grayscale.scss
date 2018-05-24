@@ -50,12 +50,14 @@ a {
   -moz-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 
-  color: $primary;
+  //color: $primary;
+  color: white;
   &:focus,
   &:hover {
     text-decoration: none;
 
-    color: darken($primary, 20%);
+    //color: darken($primary, 20%);
+    color: darken(white, 20%);
   }
 }
 
@@ -293,3 +295,6 @@ img::-moz-selection {
   background: transparent;
 }
 
+table {
+  color: black;
+}
