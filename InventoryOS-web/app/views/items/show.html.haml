@@ -21,10 +21,11 @@
             刪除
     .col-9
       %table.table.table-bordered.table-light.table-hover
-        %tbody
+        %thead
           %tr
-            %th 名稱
-            %td= @item.name
+            %th{style: "width: 20%"} 名稱
+            %th{style: "width: 80%"}= @item.name
+        %tbody
           %tr
             %th 分類
             %td= @item.category

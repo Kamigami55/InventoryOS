@@ -27,22 +27,24 @@
       %div{style: "display:none"}= form.number_field :main_image_id
     .col-9
       %table.table.table-bordered.table-light.table-hover
+        %thead
+          %tr
+            %th{style: "width: 20%"} 名稱
+            %td{style: "width: 80%"}= form.text_field :name, class: "form-control"
         %tbody
           %tr
-            %th 名稱
-            %td= form.text_field :name
-          %tr
             %th 分類
-            %td= form.text_field :category
+            %td= form.text_field :category, class: "form-control"
           %tr
             %th 擁有人
-            %td= form.number_field :owner_id
+            %td= select("item", "owner_id", User.all.collect {|u| [ u.name, u.id ] }, {}, {class: "form-control"})
+
           %tr
             %th 當下狀態
-            %td= form.text_field :status
+            %td= form.text_field :status, class: "form-control"
           %tr
             %th 使用人
-            %td= form.number_field :holder_id
+            %td= select("item", "holder_id", User.all.collect {|u| [ u.name, u.id ] }, { include_blank: true }, {class: "form-control"})
           %tr
             %th 詳細資訊
-            %td= form.text_area :detail
+            %td= form.text_area :detail, class: "form-control"
