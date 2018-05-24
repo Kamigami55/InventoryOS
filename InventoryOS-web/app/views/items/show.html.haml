@@ -1,28 +1,41 @@
-%p#notice= notice
-%p
-  %strong Name:
-  = @item.name
-%p
-  %strong Detail:
-  = @item.detail
-%p
-  %strong Status:
-  = @item.status
-%p
-  %strong Location:
-  = @item.location
-%p
-  %strong Owner:
-  = @item.owner_id
-%p
-  %strong Holder:
-  = @item.holder_id
-%p
-  %strong Category:
-  = @item.category
-%p
-  %strong Main image:
-  = @item.main_image_id
-= link_to 'Edit', edit_item_path(@item)
-|
-= link_to 'Back', items_path
+.container{style: "padding: 100px 0"}
+  %p#notice= notice
+  .row
+    .col-3
+      = image_tag("http://via.placeholder.com/300x300", class: "img-thumbnail")
+      %br/
+      %br/
+      .text-center
+        = link_to items_path do
+          %button.btn.btn-secondary
+            = fa_icon "arrow-left"
+            返回
+        = link_to edit_item_path(@item) do
+          %button.btn.btn-primary
+            = fa_icon "pencil"
+            編輯
+        = link_to item_path(@item), method: :delete, data: { confirm: '確定要刪除這個物品嗎？' } do
+          %button.btn.btn-danger
+            = fa_icon "times"
+            刪除
+    .col-9
+      %table.table.table-bordered.table-light.table-hover
+        %tbody
+          %tr
+            %th 名稱
+            %td= @item.name
+          %tr
+            %th 分類
+            %td= @item.category
+          %tr
+            %th 擁有人
+            %td= @item.owner.try(:name)
+          %tr
+            %th 當下狀態
+            %td= @item.status
+          %tr
+            %th 使用人
+            %td= @item.holder.try(:name)
+          %tr
+            %th 詳細資訊
+            %td= @item.detail

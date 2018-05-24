@@ -1,43 +1,41 @@
 %header.inventory-header
   .container{ style: 'margin-top: 100px' }
     %p#notice= notice
-    %h1.display-3.text-center 庫存
+    %h1.font-weight-normal.display-3.text-center 庫存
     %table.table.table-bordered.table-light.table-hover
       %thead.thead-dark
         %tr
-          %th Name
-          %th Detail
-          %th Status
-          %th Location
-          %th Owner
-          %th Holder
-          %th Category
-          %th Main image
+          %th 照片
+          %th 名稱
+          %th 分類
+          %th 擁有人
+          %th 當下狀態
+          %th 使用人
+          %th 詳細資訊
           %th{:colspan => "3"}
       %tbody
         - @items.each do |item|
           %tr
+            %td= image_tag("http://via.placeholder.com/60x45")
             %td= item.name
-            %td= item.detail
-            %td= item.status
-            %td= item.location
-            %td= item.owner_id
-            %td= item.holder_id
             %td= item.category
-            %td= item.main_image_id
+            %td= item.owner.try(:name)
+            %td= item.status
+            %td= item.holder.try(:name)
+            %td= item.detail
             %td
-              %button.btn.btn-info
-                = link_to item do
+              = link_to item do
+                %button.btn.btn-info
                   = fa_icon "search"
-              %button.btn.btn-primary
-                = link_to edit_item_path(item) do
+              = link_to edit_item_path(item) do
+                %button.btn.btn-primary
                   = fa_icon "pencil"
-              %button.btn.btn-danger
-                = link_to item, method: :delete, data: { confirm: 'Are you sure?' } do
+              = link_to item, method: :delete, data: { confirm: '確定要刪除這個物品嗎？' } do
+                %button.btn.btn-danger
                   = fa_icon "times"
     %br/
     .text-center
-      %button.btn.btn-success.btn-lg
-        = link_to new_item_path do
+      = link_to new_item_path do
+        %button.btn.btn-success.btn-lg
           = fa_icon "plus"
           新增物品
