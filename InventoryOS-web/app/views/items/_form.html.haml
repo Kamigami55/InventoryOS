@@ -1,9 +1,10 @@
 = form_with(model: item, local: true, class: "container") do |form|
   .row
     .col-3
-      = image_tag("http://via.placeholder.com/300x300", class: "img-thumbnail")
+      = image_tag(item.item_image.url || "http://via.placeholder.com/300x300", class: "img-thumbnail")
       %br/
       %br/
+      = form.file_field :item_image, class: "form-control-file"
       .text-center
         = link_to item do
           %button.btn.btn-secondary

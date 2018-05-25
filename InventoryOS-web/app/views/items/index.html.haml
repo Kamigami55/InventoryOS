@@ -32,7 +32,7 @@
       %tbody
         - @items.each do |item|
           %tr
-            %td= image_tag("http://via.placeholder.com/60x45")
+            %td= image_tag(item.item_image.thumb.url || "http://via.placeholder.com/50x50")
             %td= item.name
             %td= item.category
             %td= item.owner.try(:name)

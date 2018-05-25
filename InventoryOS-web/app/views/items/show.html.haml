@@ -4,7 +4,7 @@
     %h1.font-weight-normal.display-3.text-center 庫存 - 查看物品
     .row
       .col-3
-        = image_tag("http://via.placeholder.com/300x300", class: "img-thumbnail")
+        = image_tag(@item.item_image.url || "http://via.placeholder.com/300x300", class: "img-thumbnail")
         %br/
         %br/
         .text-center
