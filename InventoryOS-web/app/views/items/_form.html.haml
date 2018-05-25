@@ -26,25 +26,37 @@
       %div{style: "display:none"}= form.text_field :location
       %div{style: "display:none"}= form.number_field :main_image_id
     .col-9
-      %table.table.table-bordered.table-light.table-hover
-        %thead
+      %table.table.table-bordered.table-light.table-hover.table-striped
+        %thead.thead-dark
           %tr
-            %th{style: "width: 20%"} 名稱
-            %td{style: "width: 80%"}= form.text_field :name, class: "form-control"
+            %th{style: "width: 20%"}
+              = fa_icon "archive"
+              物品
+            %th{style: "width: 80%"}= form.text_field :name, class: "form-control form-control-sm", placeholder: "名稱"
         %tbody
           %tr
-            %th 分類
-            %td= form.text_field :category, class: "form-control"
+            %th
+              = fa_icon "sitemap"
+              分類
+            %td= form.text_field :category, class: "form-control form-control-sm", placeholder: "分類"
           %tr
-            %th 擁有人
-            %td= select("item", "owner_id", User.all.collect {|u| [ u.name, u.id ] }, {}, {class: "form-control"})
+            %th
+              = fa_icon "user"
+              擁有人
+            %td= select("item", "owner_id", User.all.collect {|u| [ u.name, u.id ] }, {}, {class: "form-control form-control-sm"})
 
           %tr
-            %th 當下狀態
-            %td= form.text_field :status, class: "form-control"
+            %th
+              = fa_icon "map-marker"
+              所在地
+            %td= form.text_field :location, class: "form-control form-control-sm", placeholder: "地點"
           %tr
-            %th 使用人
-            %td= select("item", "holder_id", User.all.collect {|u| [ u.name, u.id ] }, { include_blank: true }, {class: "form-control"})
+            %th
+              = fa_icon "user-circle"
+              使用人
+            %td= select("item", "holder_id", User.all.collect {|u| [ u.name, u.id ] }, { include_blank: true }, {class: "form-control form-control-sm"})
           %tr
-            %th 詳細資訊
-            %td= form.text_area :detail, class: "form-control"
+            %th
+              = fa_icon "info-circle"
+              詳細資訊
+            %td= form.text_area :detail, class: "form-control form-control-sm", placeholder: "詳細資訊"

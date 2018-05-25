@@ -21,24 +21,36 @@
               = fa_icon "times"
               刪除
       .col-9
-        %table.table.table-bordered.table-light.table-hover
-          %thead
+        %table.table.table-light.table-bordered.table-hover.table-striped
+          %thead.thead-dark
             %tr
-              %th{style: "width: 20%"} 名稱
+              %th{style: "width: 20%"}
+                = fa_icon "archive"
+                物品
               %th{style: "width: 80%"}= @item.name
           %tbody
             %tr
-              %th 分類
+              %th
+                = fa_icon "sitemap"
+                分類
               %td= @item.category
             %tr
-              %th 擁有人
+              %th
+                = fa_icon "user"
+                擁有人
               %td= @item.owner.try(:name)
             %tr
-              %th 當下狀態
-              %td= @item.status
+              %th
+                = fa_icon "map-marker"
+                所在地
+              %td= @item.location
             %tr
-              %th 使用人
+              %th
+                = fa_icon "user-circle"
+                使用人
               %td= @item.holder.try(:name)
             %tr
-              %th 詳細資訊
+              %th
+                = fa_icon "info-circle"
+                詳細資訊
               %td= @item.detail

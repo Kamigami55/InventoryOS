@@ -2,17 +2,33 @@
   .container
     %p#notice= notice
     %h1.font-weight-normal.display-3.text-center 庫存 - 列表
-    %table.table.table-bordered.table-light.table-hover
+    %table.table.table-bordered.table-light.table-hover.table-striped
       %thead.thead-dark
         %tr
-          %th 照片
-          %th 名稱
-          %th 分類
-          %th 擁有人
-          %th 當下狀態
-          %th 使用人
-          %th 詳細資訊
+          %th
+            = fa_icon "image"
+            照片
+          %th
+            = fa_icon "archive"
+            物品
+          %th
+            = fa_icon "sitemap"
+            分類
+          %th
+            = fa_icon "user"
+            擁有人
+          %th
+            = fa_icon "map-marker"
+            所在地
+          %th
+            = fa_icon "user-circle"
+            使用人
+          %th
+            = fa_icon "info-circle"
+            詳細資訊
           %th{:colspan => "3"}
+            = fa_icon "edit"
+            執行操作
       %tbody
         - @items.each do |item|
           %tr
@@ -20,7 +36,7 @@
             %td= item.name
             %td= item.category
             %td= item.owner.try(:name)
-            %td= item.status
+            %td= item.location
             %td= item.holder.try(:name)
             %td= item.detail
             %td
