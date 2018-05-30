@@ -24,16 +24,11 @@ Builder.load_string('''
     Camera:
         id: camera
         resolution: (640, 480)
-        play: False
-    ToggleButton:
-        text: 'Play'
-        on_press: camera.play = not camera.play
-        size_hint_y: None
-        height: '48dp'
+        play: True
     Button:
         text: 'Capture'
         size_hint_y: None
-        height: '48dp'
+        height: '200dp'
         on_press: root.capture()
 ''')
 
