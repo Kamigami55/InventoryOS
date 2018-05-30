@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+#:kivy 1.10.1
+
+<CameraLayout>:
+    orientation: 'vertical'
+    ToggleButton:
+        id: mode_switch
+        text: "Borrow mode"
+        size_hint_y: None
+        height: '100dp'
+        on_state: root.switchMode()
+    Camera:
+        id: camera
+        resolution: (640, 480)
+        play: True
+    Button:
+        text: 'Capture'
+        size_hint_y: None
+        height: '200dp'
+        on_press: root.capture()
+
