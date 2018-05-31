@@ -13,12 +13,12 @@ to the path of your credential.json downloaded from
 google cloud
 '''
 
-
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.core.window import Window
+
 
 from enum import Enum
-
 
 import io
 import os
@@ -44,7 +44,11 @@ class ModeType(Enum):
     RETURN = 2
 
 
-class CameraLayout(BoxLayout):
+class MyScreenManager(ScreenManager):
+    pass
+
+
+class CameraLayout(Screen):
 
     mode = ModeType.BORROW
 
@@ -55,7 +59,7 @@ class CameraLayout(BoxLayout):
         '''
         camera = self.ids['camera']
         camera.export_to_png("captured.png")
-        print("Captured")
+        print("\nCaptured")
 
         # Start performing object detection using Google Vision API
         # Loads the image into memory
@@ -68,9 +72,16 @@ class CameraLayout(BoxLayout):
         response = visionClient.label_detection(image=image)
         labels = response.label_annotations
 
+        optionLayout = Window.get_parent_window().children[0].ids.optionlayout
+        optionLayout.ids.option1.text = labels[0].description
+        optionLayout.ids.option2.text = labels[1].description
+        optionLayout.ids.option3.text = labels[2].description
+
         print('Labels:')
         for label in labels:
             print(label.description)
+
+        self.manager.current = 'optionlayout'
 
     def switchMode(self):
         '''
@@ -87,10 +98,17 @@ class CameraLayout(BoxLayout):
         print("Mode switched to %s" % self.mode.name)
 
 
+class OptionLayout(Screen):
+
+    def select(self, option):
+        print("Option selected %d" % option)
+        self.manager.current = 'cameralayout'
+
+
 class CameraApp(App):
 
     def build(self):
-        return CameraLayout()
+        return MyScreenManager()
 
 
 if __name__ == '__main__':
