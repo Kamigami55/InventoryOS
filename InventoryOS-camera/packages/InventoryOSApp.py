@@ -12,6 +12,13 @@ import io
 from google.cloud import vision
 from google.cloud.vision import types
 from .myRFID import RFIDReader
+from enum import Enum
+
+
+class ModeType(Enum):
+    BORROW = 1
+    RETURN = 2
+
 
 
 class InventoryOSApp:
@@ -23,6 +30,7 @@ class InventoryOSApp:
         self.panel = None
         self.stopEvent = None
         self.RFIDReader = RFIDReader()
+        self.mode = ModeType.BORROW
 
         # Button: take snapshot
         btn = tki.Button(self.root, text="Snapshot!",
@@ -30,9 +38,24 @@ class InventoryOSApp:
         btn.pack(side="bottom", fill="both", expand="yes", padx=10,
             pady=10)
 
+        # Button: mode
+        self.modetext = tki.StringVar()
+        self.modetext.set("BORROW Mode")
+        btn = tki.Button(self.root, textvariable=self.modetext,
+            command=self.changeMode)
+        btn.pack(side="bottom", fill="both", expand="yes", padx=10,
+            pady=10)
+
         # Text: recognition result
         self.result = tki.StringVar()
+        self.result.set("Recognition result")
         l = tki.Label(self.root, textvariable=self.result, width=15, height=2)
+        l.pack(side='bottom', padx=10, pady=10, expand='yes')
+
+        # Text: current user
+        self.currentUser = tki.StringVar()
+        self.currentUser.set("Current user")
+        l = tki.Label(self.root, textvariable=self.currentUser, width=15, height=2)
         l.pack(side='bottom', padx=10, pady=10, expand='yes')
 
         # start a thread that constantly pools the video sensor for
@@ -49,13 +72,26 @@ class InventoryOSApp:
         self.visionClient = vision.ImageAnnotatorClient()
 
 
+    def changeMode(self):
+        if self.mode == ModeType.BORROW:
+            self.mode = ModeType.RETURN
+            self.modetext.set("RETURN Mode")
+            print("Mode changed to RETURN")
+        else:
+            self.mode = ModeType.BORROW
+            self.modetext.set("BORROW Mode")
+            print("Mode changed to BORROW")
+
+
     def videoLoop(self):
         # try/except statement is a pretty ugly hack to get around
         # a RunTime error that Tkinter throws due to threading
         try:
             while not self.stopEvent.is_set():
 
-                self.RFIDReader.read()
+                user = self.RFIDReader.read()
+                if user is not None:
+                    self.currentUser.set(user)
 
                 self.frame = self.vs.read()
                 self.frame = imutils.resize(self.frame, width=300)

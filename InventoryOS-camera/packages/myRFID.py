@@ -35,8 +35,10 @@ class RFIDReader():
                         if self.currentUser != user['name']:
                             print("User changed to '%s'" % user['name'])
                             self.currentUser = user['name']
+                            return self.currentUser
                         break
-        return self.currentUser
+
+        return None
 
 
 

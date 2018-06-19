@@ -27,12 +27,6 @@ import threading
 from packages.InventoryOSApp import InventoryOSApp
 
 
-class ModeType(Enum):
-    BORROW = 1
-    RETURN = 2
-
-mode = ModeType.BORROW
-
 window = None
 windowHasCleanedUp = False
 
