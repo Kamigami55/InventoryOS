@@ -1,0 +1,56 @@
+%header.inventory-header
+  .container
+    #notice.alert.alert-primary= notice
+    %h1.font-weight-normal.display-3.text-center 庫存 - 查看物品
+    -#.row
+      -#.col-3
+        -#= image_tag(@item.item_image.url || "http://via.placeholder.com/300x300", class: "img-thumbnail")
+        -#%br/
+        -#%br/
+        -#.text-center
+          -#= link_to items_path do
+            -#%button.btn.btn-secondary
+              -#= fa_icon "arrow-left"
+              -#返回
+          -#= link_to edit_item_path(@item) do
+            -#%button.btn.btn-primary
+              -#= fa_icon "pencil"
+              -#編輯
+          -#= link_to item_path(@item), method: :delete, data: { confirm: '確定要刪除這個物品嗎？' } do
+            -#%button.btn.btn-danger
+              -#= fa_icon "times"
+              -#刪除
+      -#.col-9
+        -#%table.table.table-light.table-bordered.table-hover.table-striped
+          -#%thead.thead-dark
+            -#%tr
+              -#%th{style: "width: 20%"}
+                -#= fa_icon "archive"
+                -#物品
+              -#%th{style: "width: 80%"}= @item.name
+          -#%tbody
+            -#%tr
+              -#%th
+                -#= fa_icon "sitemap"
+                -#分類
+              -#%td= @item.category
+            -#%tr
+              -#%th
+                -#= fa_icon "user"
+                -#擁有人
+              -#%td= @item.owner.try(:name)
+            -#%tr
+              -#%th
+                -#= fa_icon "map-marker"
+                -#所在地
+              -#%td= @item.location
+            -#%tr
+              -#%th
+                -#= fa_icon "user-circle"
+                -#使用人
+              -#%td= @item.holder.try(:name)
+            -#%tr
+              -#%th
+                -#= fa_icon "info-circle"
+                -#詳細資訊
+              -#%td= @item.detail

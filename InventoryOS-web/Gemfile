@@ -43,6 +43,7 @@ gem 'jquery-rails'
 gem "haml-rails", "~> 1.0"
 gem "font-awesome-rails"
 gem 'jquery-easing-rails'
+gem 'websocket-rails'
 
 ## For image upload
 gem 'carrierwave', '~> 1.0'
