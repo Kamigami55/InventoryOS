@@ -2,11 +2,7 @@ class DeviceController < ApplicationController
   def index
   end
   def api
-    #api_params = params.require(:data).permit(:username, :mode, :item_image, :item_name)
-    #@username = api_params[:username]
-    #@mode = api_params[:mode]
     #@item_image = api_params[:item_image]
-    #@item_name = api_params[:item_name]
     @username = params[:username]
     @mode = params[:mode]
     @item_name = params[:item_name]
@@ -17,7 +13,7 @@ class DeviceController < ApplicationController
     @user = User.find_by_name(@username)
     if @user.nil?
       # show error page: user not found TODO
-      render inline: "User <%= @username %> not found"
+      render inline: "[ABORT] (USER <%= @username %>) not found"
       return
     end
 
@@ -27,18 +23,17 @@ class DeviceController < ApplicationController
       if not @item.nil?
         # item in inventory and availiable
         # set item holder to user
-        #@item = @item.first
         @item.holder = @user
         @item.save
         # show msg TODO
-        render inline: "Item <%= @item.name %> borrowed by <%= @item.holder.name %>"
+        render inline: "[UPDATE] (USER <%= @user.name %>) successfully BORROW (ITEM <%= @item.name %>)"
         return
       else
         #     //add item to inventory
         #     //set item holder to user
         #     //show edit page(can easily delete)
         # show error msg TODO
-        render inline: "Item <%= @item_name %> not found"
+        render inline: "[ABORT] Can't find (ITEM <%= @item_name %>) available for borrow"
         return
       end
       # End BORROW
@@ -51,11 +46,11 @@ class DeviceController < ApplicationController
         @item.holder = nil
         @item.save
         # show msg TODO
-        render inline: "Item <%= @item.name %> returned by <%= @user.name %>"
+        render inline: "[UPDATE] (USER <%= @user.name %>) successfully RETURN (ITEM <%= @item.name %>)"
         return
       else
         # show error msg
-        render inline: "User <%= @user.name %> not holding this item <%= @item_name %>"
+        render inline: "[ABORT] Can't find (ITEM <%= @item_name %>) that held by (USER <%= @user.name %>)"
         return
       end
       # End RETURN
@@ -67,12 +62,12 @@ class DeviceController < ApplicationController
       @item.owner = @user
       @item.save
       # show edit page TODO
-      render inline: "Item <%= @item.name %> owned by <%= @item.owner.name %> added"
+      render inline: "[UPDATE] ADD new (ITEM <%= @item.name %>) owned by (USER <%= @item.owner.name %>)"
       return
       # End ADDNEW
     end
 
-    render inline: "ERROR: <%= @username || 'null' %> <%= @mode || 'null' %> <%= @item_image || 'null' %> <%= @item_name || 'null' %>"
+    render inline: "[ERROR] MODE incorrect or something wrong\n[Raw data] username: <%= @username || 'null' %>, mode: <%= @mode || 'null' %>, item_name: <%= @item_name || 'null' %>"
     return
   end
   # End api
