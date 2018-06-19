@@ -13,11 +13,12 @@ from google.cloud import vision
 from google.cloud.vision import types
 from .myRFID import RFIDReader
 from enum import Enum
+import requests
 
 
 class ModeType(Enum):
-    BORROW = 1
-    RETURN = 2
+    BORROW = 'BORROW'
+    RETURN = 'RETURN'
 
 
 
@@ -42,19 +43,19 @@ class InventoryOSApp:
         self.modetext = tki.StringVar()
         self.modetext.set("BORROW Mode")
         btn = tki.Button(self.root, textvariable=self.modetext,
-            command=self.changeMode)
+            command=self.changeMode, bg="yellow")
         btn.pack(side="bottom", fill="both", expand="yes", padx=10,
-            pady=10)
+                 pady=10)
 
         # Text: recognition result
         self.result = tki.StringVar()
-        self.result.set("Recognition result")
+        self.result.set("None")
         l = tki.Label(self.root, textvariable=self.result, width=15, height=2)
         l.pack(side='bottom', padx=10, pady=10, expand='yes')
 
         # Text: current user
         self.currentUser = tki.StringVar()
-        self.currentUser.set("Current user")
+        self.currentUser.set("None")
         l = tki.Label(self.root, textvariable=self.currentUser, width=15, height=2)
         l.pack(side='bottom', padx=10, pady=10, expand='yes')
 
@@ -140,7 +141,25 @@ class InventoryOSApp:
         if labels is None:
             self.result.set("Can't recognize")
         else:
-            self.result.set(labels[0].description)
+            result = labels[0].description
+            self.result.set(result)
+
+            username = self.currentUser.get()
+            if username == "None":
+                print("User name not set, abort")
+            else:
+                print("POST data to server")
+                # Send request to server
+                data = {
+                    'username' : username,
+                    'mode': self.mode.value,
+                    'item_name': result
+                }
+                # headers = {'Content-type': 'multipart/form-data'}
+                # files = {'media': io.open('image.jpg', 'rb')}
+                url = 'http://makereallabs.com:3000/device/api'
+                r = requests.post(url, data=data)
+                print(r.text)
 
 
     def onClose(self):
