@@ -3,7 +3,7 @@ from .MFRC522 import MFRC522
 
 
 userList = [
-    {'uid' : [152,44,161,89], 'name' : 'BlueGuy'}
+    {'uid' : [152,44,161,89], 'name' : 'Admin'}
 ]
 
 
