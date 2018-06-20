@@ -1,6 +1,14 @@
 class DeviceController < ApplicationController
   def index
   end
+  def image
+    @item = Item.last
+    image = params[:item_image]
+    @item.item_image = image
+    @item.save
+    render inline: "[UPDATE] Image of (ITEM <%= @item.name %>) updated"
+    return
+  end
   def api
     #@item_image = api_params[:item_image]
     @username = params[:username]
@@ -71,5 +79,10 @@ class DeviceController < ApplicationController
     return
   end
   # End api
+
+  def item_params
+    params.require(:item).permit(:name, :detail, :status, :location, :owner_id, :holder_id, :category, :main_image_id, :item_image)
+  end
+
 end
 # End class

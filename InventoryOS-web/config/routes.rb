@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :users
   get 'device', :to => 'device#index'
   post 'device/api', :to => 'device#api'
+  post 'device/image', :to => 'device#image'
 end
