@@ -41,29 +41,15 @@ class InventoryOSApp:
         self.image = ImageTk.PhotoImage(Image.open("image.jpg"))
         self.imagePanel = tki.Label(image=self.image)
         self.imagePanel.image = self.image
-        self.imagePanel.grid(row=0, column=0)
+        self.imagePanel.pack(side='left')
 
-        # Buttons frame
-        self.buttonFrame = tki.Frame(self.root)
-        self.buttonFrame.grid(row=1, column=0)
-
-        # Button: take snapshot
-        btn = tki.Button(self.buttonFrame, text="Recognize!",
-            command=self.takeSnapshot)
-        btn.pack(side="bottom", fill="both", expand="yes", padx=10,
-            pady=10)
-
-        # Button: mode
-        self.modetext = tki.StringVar()
-        self.modetext.set("BORROW Mode")
-        btn = tki.Button(self.buttonFrame, textvariable=self.modetext,
-            command=self.changeMode, bg="yellow")
-        btn.pack(side="bottom", fill="both", expand="yes", padx=10,
-                 pady=10)
+        # right frame
+        rframe = tki.Frame(self.root)
+        rframe.pack(side='left')
 
         # Texts frame
-        self.textFrame = tki.Frame(self.root)
-        self.textFrame.grid(row=0, column=1, rowspan=2, sticky='N')
+        self.textFrame = tki.Frame(rframe)
+        self.textFrame.pack()
 
         # Text: recognition result
         rrFrame = tki.Frame(self.textFrame)
@@ -92,8 +78,28 @@ class InventoryOSApp:
         self.serverResult.set("None")
         l = tki.Label(srFrame, text="Server Response: ", justify='left', anchor='nw')
         l.pack(fill='x')
-        l = tki.Label(srFrame, textvariable=self.serverResult, fg='blue', width=30, wraplength=250, height=6, justify='left', anchor='nw')
+        l = tki.Label(srFrame, textvariable=self.serverResult, fg='blue', width=30, wraplength=230, height=6, justify='left', anchor='nw')
         l.pack()
+
+        # Buttons frame
+        self.buttonFrame = tki.Frame(rframe)
+        self.buttonFrame.pack(side='bottom', fill='x')
+
+        # mode buttons frame
+        mbFrame = tki.Frame(self.buttonFrame)
+        mbFrame.pack(fill='x')
+
+        self.borrowbtn = tki.Button(mbFrame, text="BORROW", bg='cyan', command= lambda: self.changeMode(ModeType.BORROW))
+        self.borrowbtn.pack(side="left", fill="x")
+        self.returnbtn = tki.Button(mbFrame, text="RETURN", bg='white', command= lambda: self.changeMode(ModeType.RETURN))
+        self.returnbtn.pack(side="left", fill="x")
+        self.addnewbtn = tki.Button(mbFrame, text="ADDNEW", bg='white', command= lambda: self.changeMode(ModeType.ADDNEW))
+        self.addnewbtn.pack(side="left", fill="x")
+
+        # Button: take snapshot
+        self.recogbtn = tki.Button(self.buttonFrame, text="Recognize!", bg='green', command=self.takeSnapshot, state='disabled')
+        self.recogbtn.pack(fill="x")
+
 
         # start a thread that constantly pools the video sensor for
         # the most recently read frame
@@ -109,22 +115,20 @@ class InventoryOSApp:
         self.visionClient = vision.ImageAnnotatorClient()
 
 
-    def changeMode(self):
-        if self.mode == ModeType.BORROW:
-            # change from BORROW to RETURN
-            self.mode = ModeType.RETURN
-            self.modetext.set("RETURN Mode")
-            print("Mode changed to RETURN")
-        elif self.mode == ModeType.RETURN:
-            # change from RETURN to ADDNEW
-            self.mode = ModeType.ADDNEW
-            self.modetext.set("ADDNEW Mode")
-            print("Mode changed to ADDNEW")
-        else:
-            # change from ADDNEW to BORROW
-            self.mode = ModeType.BORROW
-            self.modetext.set("BORROW Mode")
+    def changeMode(self, mode):
+        self.mode = mode
+        self.borrowbtn.config(bg='white')
+        self.returnbtn.config(bg='white')
+        self.addnewbtn.config(bg='white')
+        if mode == ModeType.BORROW:
+            self.borrowbtn.config(bg='cyan')
             print("Mode changed to BORROW")
+        elif mode == ModeType.RETURN:
+            self.returnbtn.config(bg='yellow')
+            print("Mode changed to RETURN")
+        else:
+            self.addnewbtn.config(bg='magenta')
+            print("Mode changed to ADDNEW")
 
 
     def videoLoop(self):
@@ -133,9 +137,11 @@ class InventoryOSApp:
         try:
             while not self.stopEvent.is_set():
 
+                # Deal with RDIF stuff
                 user = self.RFIDReader.read()
                 if user is not None:
                     self.currentUser.set(user)
+                    self.recogbtn.config(state='normal')
 
                 self.frame = self.vs.read()
                 self.frame = imutils.resize(self.frame, width=300)
@@ -149,13 +155,6 @@ class InventoryOSApp:
 
                 self.imagePanel.configure(image=image)
                 self.imagePanel.image = image
-                # if self.panel is None:
-                    # self.panel = tki.Label(image=image)
-                    # self.panel.image = image
-                    # self.panel.pack(side="left", padx=10, pady=10)
-                # else:
-                    # self.panel.configure(image=image)
-                    # self.panel.image = image
 
         except RuntimeError, e:
             print("[INFO] caught a RuntimeError")
@@ -207,6 +206,14 @@ class InventoryOSApp:
                 r = requests.post(url, data=data)
                 print(r.text)
                 self.serverResult.set(r.text)
+
+
+                if self.mode == ModeType.ADDNEW:
+                    files = {'item_image': io.open('image.jpg', 'rb')}
+                    url = 'http://makereallabs.com:3000/device/image'
+                    r = requests.post(url, files=files)
+                    print(r.text)
+                    self.serverResult.set(self.serverResult.get() + "\n" + r.text)
 
 
     def onClose(self):
